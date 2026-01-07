@@ -1,25 +1,47 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-int main(){
+double f(double x)
+{
+    return 1.0 / (1.0 + x * x);
+}
+
+int main()
+{
+    double a, b;
     int n;
-    cin>>n;
-    double a,b,h;
 
-    
-    vector<double>y(n+1),x(n+1);
-    for(int i=0;i<n;i++){
-        cin>>x[i]>>y[i];
+    cout << "Enter lower limit a: ";
+    cin >> a;
+
+    cout << "Enter upper limit b: ";
+    cin >> b;
+
+    cout << "Enter number of intervals (even): ";
+    cin >> n;
+
+    if (n % 2 != 0)
+    {
+        cout << "Error: Number of intervals must be even!" << endl;
+        return 0;
     }
-    cin>>a>>b;
-    h=(b-a)/n;
 
-    double res=y[0]+y[n];
+    double h = (b - a) / n;
+    double sum = f(a) + f(b);
 
-    for(int i=1;i<n;i++){
-        res+=i%2==1 ? y[i]*4 : y[i]*2;
+    for (int i = 1; i < n; i++)
+    {
+        double x = a + i * h;
+        if (i % 2 == 0)
+            sum += 2 * f(x);
+        else
+            sum += 4 * f(x);
     }
-    res*=h/3.0;
-    cout<<res<<endl;
 
+    double integral = (h / 3.0) * sum;
+
+    cout << "\nIntegral using Simpson's 1/3 Rule = "
+         << fixed << setprecision(6) << integral << endl;
+
+    return 0;
 }
